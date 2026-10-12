@@ -1,0 +1,125 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Registration</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4efff;
+            color: #30204d;
+            margin: 0;
+            padding: 30px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #6c3db5;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 25px auto;
+            background: white;
+            padding: 25px;
+            border-radius: 14px;
+            box-shadow: 0 4px 15px #00000012;
+            overflow-x: auto;
+        }
+
+        form {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        input {
+            flex: 1;
+            min-width: 180px;
+            padding: 12px;
+            border: 1px solid #cbb8eb;
+            border-radius: 7px;
+        }
+
+        button {
+            padding: 12px 20px;
+            background: #6c3db5;
+            color: white;
+            border: none;
+            border-radius: 7px;
+            cursor: pointer;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 25px;
+        }
+
+        th, td {
+            padding: 12px;
+            border-bottom: 1px solid #e5dcf5;
+            text-align: left;
+        }
+
+        th {
+            background: #6c3db5;
+            color: white;
+        }
+
+        .back {
+            display: inline-block;
+            margin-top: 20px;
+            color: #b53d91;
+            text-decoration: none;
+            font-weight: bold;
+        }
+    </style>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+    <h1>Search Student Registration</h1>
+
+    <div class="container">
+        <form th:action="@{/search-registration}" method="get">
+            <input type="text"
+                   name="rollNumber"
+                   placeholder="Enter student roll number"
+                   th:value="${rollNumber}"
+                   required>
+            <button type="submit">Search</button>
+        </form>
+
+        <div th:if="${rollNumber != null and !#strings.isEmpty(rollNumber)}">
+            <table th:if="${not #lists.isEmpty(registrations)}">
+                <thead>
+                    <tr>
+                        <th>Student Name</th>
+                        <th>Roll Number</th>
+                        <th>Department</th>
+                        <th>Event ID</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="registration : ${registrations}">
+                        <td th:text="${registration.studentName}"></td>
+                        <td th:text="${registration.rollNumber}"></td>
+                        <td th:text="${registration.department}"></td>
+                        <td th:text="${registration.eventId}"></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <p th:if="${#lists.isEmpty(registrations)}">
+                No registrations found for this roll number.
+            </p>
+        </div>
+
+        <a class="back" href="/">← Back to Home</a>
+    </div>
+</body>
+</html>

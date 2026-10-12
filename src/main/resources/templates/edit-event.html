@@ -1,0 +1,162 @@
+```html
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Event Details</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f3f6fb;
+            margin: 0;
+            padding: 30px 15px;
+            color: #243047;
+        }
+
+        .container {
+            max-width: 750px;
+            margin: auto;
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        h1 {
+            text-align: center;
+            color: #334eac;
+        }
+
+        .event {
+            border: 1px solid #dce3ef;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 8px;
+        }
+
+        input, textarea {
+            box-sizing: border-box;
+            width: 100%;
+            padding: 11px;
+            margin: 7px 0 15px;
+            border: 1px solid #ccd4e0;
+            border-radius: 6px;
+            font-size: 15px;
+        }
+
+        button, .edit-link {
+            display: inline-block;
+            background: #334eac;
+            color: white;
+            padding: 11px 16px;
+            border: none;
+            border-radius: 6px;
+            text-decoration: none;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        .back {
+            display: inline-block;
+            margin-top: 20px;
+            color: #334eac;
+            text-decoration: none;
+        }
+
+        .message {
+            background: #ffcde8;
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+    </style>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+<div class="container">
+
+    <h1>Update Event Details</h1>
+
+    <p th:if="${error}" class="message" th:text="${error}"></p>
+    <p th:if="${message}" class="message" th:text="${message}"></p>
+
+    <div th:if="${event == null}">
+        <h2>Select an Event</h2>
+
+        <div class="event" th:each="item : ${events}">
+            <h3 th:text="${item.eventName}"></h3>
+            <p>
+                Event ID:
+                <span th:text="${item.eventId}"></span>
+            </p>
+            <p>
+                Date:
+                <span th:text="${item.eventDate}"></span>
+            </p>
+            <p>
+                Venue:
+                <span th:text="${item.venue}"></span>
+            </p>
+
+            <a class="edit-link"
+               th:href="@{/edit-event(eventId=${item.eventId})}">
+                Edit Event
+            </a>
+        </div>
+
+        <p th:if="${#lists.isEmpty(events)}">
+            No events are available.
+        </p>
+    </div>
+
+    <div th:if="${event != null}">
+        <h2>Edit Selected Event</h2>
+
+        <form action="/update-event" method="post">
+
+            <input type="hidden" name="eventId"
+                   th:value="${event.eventId}">
+
+            <label>Event Name</label>
+            <input type="text" name="eventName"
+                   th:value="${event.eventName}" required>
+
+            <label>Event Date</label>
+            <input type="date" name="eventDate"
+                   th:value="${event.eventDate}" required>
+
+            <label>Venue</label>
+            <input type="text" name="venue"
+                   th:value="${event.venue}" required>
+
+            <label>Description</label>
+            <textarea name="description" rows="4"
+                      th:text="${event.description}" required></textarea>
+
+            <label>Available Seats</label>
+            <input type="number" name="availableSeats"
+                   min="0" th:value="${event.availableSeats}" required>
+
+            <button type="submit">Save Changes</button>
+        </form>
+
+        <p>
+            <a class="back" href="/edit-event">
+                ← Back to Event List
+            </a>
+        </p>
+    </div>
+
+    <a class="back" href="/">← Back to Home</a>
+
+</div>
+</body>
+</html>
+```

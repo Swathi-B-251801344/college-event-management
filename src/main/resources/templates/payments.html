@@ -1,0 +1,102 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Management</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4efff;
+            margin: 0;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 30px auto;
+            padding: 25px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px #ddd;
+        }
+
+        h1 {
+            text-align: center;
+            color: #6c3bbd;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background: #6c3bbd;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background: #f8f5ff;
+        }
+
+        .empty {
+            text-align: center;
+            color: #666;
+        }
+
+        .back {
+            display: inline-block;
+            margin-top: 20px;
+            color: #bd3b7e;
+            text-decoration: none;
+            font-weight: bold;
+        }
+    </style>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Payment Management</h1>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Payment ID</th>
+                    <th>Registration ID</th>
+                    <th>Amount</th>
+                    <th>Payment Status</th>
+                    <th>Payment Date</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr th:each="payment : ${payments}">
+                    <td th:text="${payment.paymentId}"></td>
+                    <td th:text="${payment.registrationId}"></td>
+                    <td th:text="${payment.amount}"></td>
+                    <td th:text="${payment.paymentStatus}"></td>
+                    <td th:text="${payment.paymentDate}"></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p class="empty"
+           th:if="${#lists.isEmpty(payments)}">
+            No payment records found.
+        </p>
+
+        <a class="back" href="/">← Back to Home</a>
+    </div>
+</body>
+</html>

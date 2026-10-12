@@ -1,0 +1,101 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Registrations</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4efff;
+            margin: 0;
+            padding: 30px;
+            color: #30204d;
+        }
+
+        h1 {
+            text-align: center;
+            color: #6c3db5;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 30px auto;
+            background: white;
+            padding: 25px;
+            border-radius: 14px;
+            box-shadow: 0 4px 15px #00000012;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 13px;
+            border-bottom: 1px solid #e5dcf5;
+            text-align: left;
+        }
+
+        th {
+            background: #6c3db5;
+            color: white;
+        }
+
+        tr:hover {
+            background: #f8f4ff;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .back {
+            display: inline-block;
+            margin-top: 20px;
+            color: #b53d85;
+            text-decoration: none;
+            font-weight: bold;
+        }
+    </style>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+    <h1>Student Registrations</h1>
+
+    <div class="container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Student Name</th>
+                    <th>Roll Number</th>
+                    <th>Department</th>
+                    <th>Event ID</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr th:each="registration : ${registrations}">
+                    <td th:text="${registration.studentName}"></td>
+                    <td th:text="${registration.rollNumber}"></td>
+                    <td th:text="${registration.department}"></td>
+                    <td th:text="${registration.eventId}"></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p class="empty"
+           th:if="${#lists.isEmpty(registrations)}">
+            No registrations found yet.
+        </p>
+
+        <a class="back" href="/">← Back to Home</a>
+    </div>
+</body>
+</html>

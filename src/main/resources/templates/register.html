@@ -1,0 +1,150 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Event Registration</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f7ff;
+            color: #202747;
+            padding: 30px 15px;
+        }
+
+        .container {
+            max-width: 550px;
+            margin: 30px auto;
+            background: white;
+            padding: 35px;
+            border-radius: 14px;
+            box-shadow: 0 4px 18px #20274718;
+        }
+
+        h1 {
+            text-align: center;
+            color: #292c70;
+            margin-bottom: 12px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #626780;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin: 18px 0 8px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #d5d8e8;
+            border-radius: 7px;
+            font-size: 15px;
+        }
+
+        button {
+            width: 100%;
+            margin-top: 25px;
+            padding: 13px;
+            background: #292c70;
+            color: white;
+            border: none;
+            border-radius: 7px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #6865d8;
+        }
+
+        .message {
+            background: #e9f8ed;
+            color: #176b35;
+            padding: 12px;
+            border-radius: 7px;
+            margin-bottom: 18px;
+        }
+
+        .error {
+            background: #fff0f0;
+            color: #a52222;
+            padding: 12px;
+            border-radius: 7px;
+            margin-bottom: 18px;
+        }
+
+        .back {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color: #702959;
+            text-decoration: none;
+        }
+    </style>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Student Registration</h1>
+
+        <p class="subtitle">
+            Register for your favourite college event!
+        </p>
+
+        <p class="message" th:if="${message}"
+           th:text="${message}"></p>
+
+        <p class="error" th:if="${error}"
+           th:text="${error}"></p>
+
+        <form th:action="@{/register}"
+              th:object="${registration}"
+              method="post">
+
+            <label for="studentName">Student Name</label>
+            <input type="text" id="studentName"
+                   th:field="*{studentName}" required>
+
+            <label for="rollNumber">Roll Number</label>
+            <input type="text" id="rollNumber"
+                   th:field="*{rollNumber}" required>
+
+            <label for="department">Department</label>
+            <input type="text" id="department"
+                   th:field="*{department}" required>
+
+            <label for="eventId">Select Event</label>
+            <select id="eventId" th:field="*{eventId}" required>
+                <option value="">-- Choose an event --</option>
+                <option th:each="event : ${events}"
+                        th:value="${event.eventId}"
+                        th:text="${event.eventName}">
+                    Event Name
+                </option>
+            </select>
+
+            <button type="submit">Register Now</button>
+        </form>
+
+        <a class="back" th:href="@{/}">
+            ← Back to Home
+        </a>
+    </div>
+</body>
+</html>

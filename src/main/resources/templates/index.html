@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>College Event Management System</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    :root {
+        --indigo: #302650;
+        --violet: #7960BD;
+        --mint: #BDEFE0;
+        --ink: #302650;
+        --paper: #FAF8FF;
+    }
+
+    html {
+        scroll-behavior: smooth;
+    }
+
+    body {
+        font-family: "Segoe UI", Arial, sans-serif;
+        background:
+            radial-gradient(ellipse at 5% 20%, #DDF8EF 0, transparent 32%),
+            radial-gradient(ellipse at 95% 45%, #E8DEFF 0, transparent 30%),
+            var(--paper);
+        background-attachment: fixed;
+        color: var(--ink);
+        line-height: 1.7;
+    }
+
+    /* Header and navigation */
+    header {
+        background: linear-gradient(115deg, #302650, #514080);
+        color: white;
+        padding: 22px 5%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 22px;
+        box-shadow: 0 8px 25px #30265025;
+    }
+
+    header h2 {
+        color: white;
+        font-size: 23px;
+        white-space: nowrap;
+    }
+
+    header nav {
+        flex: 1 1 650px;
+        display: grid;
+        grid-template-columns: repeat(7, minmax(0, 1fr));
+        gap: 9px;
+        padding: 0;
+        background: transparent;
+        box-shadow: none;
+    }
+
+    header nav a {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-width: 0;
+        margin: 0;
+        padding: 10px 6px;
+        border: 1px solid #FFFFFF35;
+        border-radius: 10px;
+        color: #FFFFFF;
+        text-align: center;
+        text-decoration: none;
+        font-size: 13px;
+        line-height: 1.4;
+        overflow-wrap: anywhere;
+        transition: background .25s, transform .25s,
+                    border-color .25s;
+    }
+
+    header nav a:hover {
+        background: #BDEFE028;
+        border-color: var(--mint);
+        transform: translateY(-2px);
+    }
+
+    /* Aurora hero banner */
+    .hero {
+        position: relative;
+        isolation: isolate;
+        overflow: hidden;
+        padding: 95px 7%;
+        text-align: center;
+        color: white;
+        background: linear-gradient(
+            120deg,
+            #302650 0%,
+            #55418A 48%,
+            #7960BD 100%
+        );
+    }
+
+    .hero::before,
+    .hero::after {
+        content: "";
+        position: absolute;
+        z-index: -1;
+        border-radius: 50%;
+        pointer-events: none;
+    }
+
+    .hero::before {
+        width: 310px;
+        height: 310px;
+        top: -150px;
+        right: -60px;
+        background: #BDEFE028;
+        border: 1px solid #BDEFE055;
+    }
+
+    .hero::after {
+        width: 240px;
+        height: 240px;
+        bottom: -150px;
+        left: -45px;
+        background: #D7C7FF25;
+        border: 1px solid #FFFFFF30;
+    }
+
+    .hero h1 {
+        max-width: 850px;
+        margin: 0 auto 18px;
+        color: #FFFFFF;
+        font-size: clamp(32px, 5vw, 52px);
+        line-height: 1.2;
+        letter-spacing: -1px;
+    }
+
+    .hero p {
+        max-width: 680px;
+        margin: 0 auto 30px;
+        color: #F1EDFF;
+        font-size: 17px;
+        line-height: 1.9;
+    }
+
+    .hero a {
+        display: inline-block;
+        padding: 13px 26px;
+        border: 1px solid var(--mint);
+        border-radius: 10px;
+        background: var(--mint);
+        color: #234D46;
+        font-weight: 700;
+        text-decoration: none;
+        box-shadow: 0 8px 22px #17112C30;
+        transition: transform .25s, box-shadow .25s;
+    }
+
+    .hero a:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 12px 28px #17112C45;
+    }
+
+    /* Page sections */
+    .section {
+        padding: 65px 7%;
+    }
+
+    .section h2 {
+        margin-bottom: 32px;
+        color: var(--indigo);
+        font-size: clamp(25px, 3vw, 34px);
+        text-align: center;
+    }
+
+    .section h2::after {
+        content: "";
+        display: block;
+        width: 58px;
+        height: 4px;
+        margin: 12px auto 0;
+        border-radius: 10px;
+        background: linear-gradient(90deg, var(--violet), var(--mint));
+    }
+
+    /* Feature and event cards */
+    .cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+        gap: 24px;
+    }
+
+    .cards .card {
+        min-width: 0;
+        padding: 27px 24px;
+        border: 1px solid #E4DDF5;
+        border-top: 4px solid var(--violet);
+        border-radius: 17px;
+        background: #FFFFFF;
+        box-shadow: 0 7px 24px #41307012;
+        transition: transform .25s, box-shadow .25s,
+                    border-color .25s;
+    }
+
+    .cards .card:hover {
+        transform: translateY(-6px);
+        border-top-color: #50B99B;
+        box-shadow: 0 15px 32px #41307020;
+    }
+
+    .card .emoji {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 58px;
+        height: 58px;
+        margin-bottom: 18px;
+        border-radius: 16px;
+        background: linear-gradient(135deg, #E8DEFF, #DDF8EF);
+        font-size: 30px;
+    }
+
+    .card h3 {
+        margin-bottom: 12px;
+        color: var(--indigo);
+        font-size: 19px;
+        line-height: 1.4;
+    }
+
+    .card p {
+        margin: 7px 0;
+        color: #716A86;
+        line-height: 1.8;
+        overflow-wrap: anywhere;
+    }
+
+    /* About section */
+    #about {
+        margin: 0 4% 45px;
+        border: 1px solid #E4DDF5;
+        border-radius: 22px;
+        background: linear-gradient(120deg, #FFFFFF, #F0FFF9);
+        box-shadow: 0 8px 26px #4130700D;
+    }
+
+    #about p {
+        max-width: 780px;
+        margin: 0 auto;
+        color: #716A86;
+    }
+
+    /* Upcoming events */
+    #events {
+        background: linear-gradient(180deg, #F2EEFF80, #DDF8EF55);
+    }
+
+    #events .card {
+        border-top-color: #50B99B;
+    }
+
+    #events .card strong {
+        color: var(--indigo);
+    }
+
+    /* Footer */
+    footer {
+        margin-top: 25px;
+        padding: 27px 20px;
+        background: var(--indigo);
+        color: #EDE8FF;
+        text-align: center;
+        border-top: 4px solid var(--mint);
+    }
+
+    /* Smaller screens */
+    @media (max-width: 900px) {
+        header nav {
+            flex-basis: 100%;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+        }
+
+        .hero {
+            padding: 70px 6%;
+        }
+
+        .section {
+            padding: 45px 5%;
+        }
+    }
+
+    @media (max-width: 600px) {
+        header {
+            padding: 18px 5%;
+        }
+
+        header nav {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 8px;
+        }
+
+        header nav a {
+            font-size: 13px;
+        }
+
+        .hero {
+            padding: 60px 6%;
+        }
+
+        .hero p {
+            font-size: 15px;
+        }
+
+        .section {
+            padding: 40px 5%;
+        }
+
+        .cards {
+            grid-template-columns: 1fr;
+        }
+
+        #about {
+            margin: 0 4% 30px;
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        html {
+            scroll-behavior: auto;
+        }
+
+        *, *::before, *::after {
+            transition: none !important;
+        }
+    }
+</style>
+
+</head>
+
+<body>
+
+    <header>
+        <h2>🎓 College Events</h2>
+        
+
+<nav>
+    <a href="#home">Home</a>
+    <a href="#features">Features</a>
+    <a href="#about">About</a>
+    <a href="/register">Register</a>
+    <a href="/registrations">View Registrations</a>
+    <a href="/search-registration">Search Registration</a>
+    <a href="/cancel-registration">Cancel Registration</a>
+    <a href="/students">Student Management</a>
+    <a href="/organizers">Organizer Management</a>
+    <a href="/payments">Payment Management</a>
+<a href="/edit-event">Update Event Details</a>
+</nav>
+
+
+    </header>
+
+    <section class="hero" id="home">
+        <h1>College Event Management System</h1>
+        <p>
+            Discover college events, manage registrations, and
+            bring your campus community together in one place.
+        </p>
+        <a href="#features">Explore Features</a>
+    </section>
+
+    <section class="section" id="features">
+        <h2>Our Features</h2>
+
+        <div class="cards">
+
+            <div class="card">
+                <div class="emoji">📅</div>
+                <h3>Event Management</h3>
+                <p>View events and manage event details, dates,
+                   venues, and available seats.</p>
+            </div>
+
+            <div class="card">
+                <div class="emoji">📝</div>
+                <h3>Student Registration</h3>
+                <p>Register students for events and maintain
+                   their registration details.</p>
+            </div>
+
+            <div class="card">
+                <div class="emoji">🔎</div>
+                <h3>Registration Search</h3>
+                <p>Find registration records and manage
+                   cancellations.</p>
+            </div>
+
+            <div class="card">
+                <div class="emoji">👥</div>
+                <h3>Student Management</h3>
+                <p>Add, view, search, update, and delete
+                   student records.</p>
+            </div>
+
+            <div class="card">
+                <div class="emoji">🧑‍💼</div>
+                <h3>Organizer Management</h3>
+                <p>Maintain organizer details and assign
+                   organizers to events.</p>
+            </div>
+
+            <div class="card">
+                <div class="emoji">💳</div>
+                <h3>Payment Management</h3>
+                <p>Record and view payment statuses for
+                   event registrations.</p>
+            </div>
+
+        </div>
+    </section>
+
+    <section class="section" id="about">
+        <h2>About Our System</h2>
+        <p style="text-align:center; line-height:1.8;">
+            This system helps organize college events and manage
+            students, registrations, organizers, and payment
+            records using Java and MySQL.
+        </p>
+    </section>
+    
+    <section class="section" id="events">
+        <h2>Upcoming College Events</h2>
+
+        <div class="cards">
+            <div class="card" th:each="event : ${events}">
+                <div class="emoji">📅</div>
+
+                <h3 th:text="${event.eventName}">Event Name</h3>
+
+                <p>
+                    <strong>Date:</strong>
+                    <span th:text="${event.eventDate}">Event Date</span>
+                </p>
+
+                <p>
+                    <strong>Venue:</strong>
+                    <span th:text="${event.venue}">Event Venue</span>
+                </p>
+
+                <p th:text="${event.description}">Event Description</p>
+
+                <p>
+                    <strong>Available Seats:</strong>
+                    <span th:text="${event.availableSeats}">0</span>
+                </p>
+            </div>
+        </div>
+
+        <p th:if="${#lists.isEmpty(events)}"
+           style="text-align:center; margin-top:20px;">
+            No events found in the database.
+        </p>
+    </section>
+
+
+    <footer>
+        <p>College Event Management System | Academic Project</p>
+    </footer>
+
+</body>
+</html>
+```

@@ -1,0 +1,121 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cancel Registration</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4efff;
+            color: #30204d;
+            margin: 0;
+            padding: 30px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #6c3db5;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 25px auto;
+            padding: 25px;
+            background: white;
+            border-radius: 14px;
+            box-shadow: 0 4px 15px #00000012;
+            overflow-x: auto;
+        }
+
+        .message {
+            padding: 12px;
+            background: #e9f8e9;
+            border-radius: 7px;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e5dcf5;
+        }
+
+        th {
+            background: #6c3db5;
+            color: white;
+        }
+
+        button {
+            padding: 9px 13px;
+            background: #b83250;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .back {
+            display: inline-block;
+            margin-top: 20px;
+            color: #b53d7b;
+            text-decoration: none;
+            font-weight: bold;
+        }
+    </style>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+    <h1>Cancel Event Registration</h1>
+
+    <div class="container">
+
+        <p class="message" th:if="${message}" th:text="${message}"></p>
+
+        <table th:if="${not #lists.isEmpty(registrations)}">
+            <thead>
+                <tr>
+                    <th>Student Name</th>
+                    <th>Roll Number</th>
+                    <th>Department</th>
+                    <th>Event ID</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr th:each="registration : ${registrations}">
+                    <td th:text="${registration.studentName}"></td>
+                    <td th:text="${registration.rollNumber}"></td>
+                    <td th:text="${registration.department}"></td>
+                    <td th:text="${registration.eventId}"></td>
+                    <td>
+                        <form th:action="@{/cancel-registration}" method="post"
+                              onsubmit="return confirm('Are you sure you want to cancel this registration?');">
+                            <input type="hidden" name="rollNumber"
+                                   th:value="${registration.rollNumber}">
+                            <input type="hidden" name="eventId"
+                                   th:value="${registration.eventId}">
+                            <button type="submit">Cancel</button>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p th:if="${#lists.isEmpty(registrations)}">
+            No registrations available to cancel.
+        </p>
+
+        <a class="back" href="/">← Back to Home</a>
+    </div>
+</body>
+</html>
